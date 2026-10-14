@@ -32,13 +32,29 @@ def save_changes(data):
         json.dump(data, file)
 
 def list():
+    border = "-"
+    indent = " "
+    status_border = 4
     result = first_launch()
     if result is None:
+        print(f"ID{indent * ((m_len_id + 3) - len(str(i["id"])))}STATUS   TITLE\n{border * 12}")
         print("Нет сохраненных целей!")
     else:
         with open("tasks.json", "r") as file:
             data = json.load(file)
-        print(data)
+        m_len_id = len(str(max(x["id"] for x in data)))
+        m_len_title = len(max(x["title"] for x in data))
+        id_border = 4 + m_len_id
+        title_border = 4 + m_len_title
+        print(f"ID{indent * m_len_id}STATUS   TITLE\n{border * (id_border + title_border + status_border)}")
+        for i in data:
+            print(f"{i['id']}{indent * ((m_len_id + 3) - len(str(i["id"])))}{prin_status(i)}      {i['title']}")
+
+def prin_status(i):
+    if i["complete"]:
+        return "[x]"
+    else:
+        return "[ ]"
 
 def done(arg):
     data = first_launch()
