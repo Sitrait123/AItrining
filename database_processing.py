@@ -87,4 +87,4 @@ def load_del_id():
 def save_changes_del_id(arg, del_id):
     del_id.append(arg)
     with open("del_id.json", "w") as file:
-        json.dump()
+        json.dump(del_id, file)
