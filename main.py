@@ -27,8 +27,8 @@ if args.add:
 elif args.list:
     try:
         result_list = database_processing.list()
-        if not result_list:
-            print(f"ID     STATUS   TITLE\n____________________\nНет сохраненных целей!")
+        if not result_list or result_list == 0:
+            print(f"ID     STATUS   TITLE\n__________________s__\nНет сохраненных целей!")
         else:
             print(result_list)
     except json.JSONDecodeError:

@@ -24,7 +24,7 @@ def add(arg):
     else:
         try:
             data = []
-            new_task = {"id": correct_id,
+            new_task = {"id": max(del_id) + 1,
                     "title": arg,
                     "complete": False}
             data.append(new_task)
@@ -49,6 +49,8 @@ def list():
     result = first_launch()
     if result is None:
         return None
+    elif len(result) == 0:
+        return 0
     else:
         with open("tasks.json", "r") as file:
             data = json.load(file)
