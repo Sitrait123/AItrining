@@ -31,7 +31,7 @@ def add(arg):
             save_changes(data)
         except ValueError:
             data = []
-            new_task = {"id": correct_id,
+            new_task = {"id": 1,
                     "title": arg,
                     "complete": False}
             data.append(new_task)
