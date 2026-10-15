@@ -48,12 +48,12 @@ def list():
     status_border = 4
     result = first_launch()
     if result is None:
-        return f"ID{indent * ((m_len_id + 3) - len(str(i['id'])))}STATUS   TITLE\n{border * 12}\nНет сохраненных целей!"
+        return None
     else:
         with open("tasks.json", "r") as file:
             data = json.load(file)
         m_len_id = len(str(max(x["id"] for x in data)))
-        m_len_title = max(x["title"] for x in data)
+        m_len_title = max(len(x["title"]) for x in data)
         id_border = 4 + m_len_id
         title_border = 4 + m_len_title
         prin = f"ID{indent * m_len_id}STATUS   TITLE\n{border * (id_border + title_border + status_border)}\n"
@@ -77,12 +77,12 @@ def done(arg):
                 is_id = True
                 break
         if not is_id:
-            return "Нет цели с таким id"
+            return 0
         else:
             save_changes(data)
             return i
     else:
-        return "Нет сохраненных целей!"
+        return None
 
 def delete(arg):
     result = first_launch()
@@ -96,13 +96,13 @@ def delete(arg):
                 is_id = True
                 break
         if not is_id:
-            return "Нет цели с таким id"
+            return 0
         else:
             save_changes_del_id(arg, del_id)
             save_changes(data)
             return i
     else:
-        return "Нет сохраненных целей!"
+        return None
 
 def load_del_id():
     try:
