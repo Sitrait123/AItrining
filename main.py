@@ -57,7 +57,7 @@ elif args.delete or args.delete ==0:
         try:
             result_delete = database_processing.delete(args.delete)
             if result_delete == 0:
-                print("Нет сохраненных целей!")
+                print("Нет цели с таким id!")
             elif result_delete is None:
                 print("Нет сохраненных целей!")
             else:
