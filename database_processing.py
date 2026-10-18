@@ -15,7 +15,13 @@ def add(arg):
     result = first_launch()
     if result is not None:
         data = result
-        correct_id = max([x["id"] for x in data] + del_id) + 1
+        if len(data) > 0:
+            correct_id = max([x["id"] for x in data] + del_id) + 1
+        else:
+            if len(del_id) > 0:
+                correct_id = max(del_id) + 1
+            else:
+                correct_id = 1
         new_task = {"id": correct_id,
                     "title": arg,
                     "complete": False}

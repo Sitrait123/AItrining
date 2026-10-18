@@ -14,3 +14,6 @@ __pycache__/
 
 # Сохранения
 tasks.json
+
+# Кэш тестов
+.pytest_cache
