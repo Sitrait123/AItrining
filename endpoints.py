@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, status
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
 import database_processing
 
 router = APIRouter()
@@ -7,6 +7,15 @@ router = APIRouter()
 class AddTask(BaseModel):
     title: str
 
+    @field_validator("title")
+    @classmethod
+    def validate_title(cls, value):
+        value = value.strip()
+
+        if not value:
+            raise ValueError("Название задачи не может быть пустым")
+
+        return value
 
 @router.get("/tasks")
 def do_list():
@@ -20,7 +29,10 @@ def do_list():
 def execute_list_by_ID(task_id: int):
     result = database_processing.list_for_api()
     if not result:
-        return []
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Нет задач!"
+        )
     else:
         for i in result:
             try:      
@@ -33,13 +45,6 @@ def execute_list_by_ID(task_id: int):
             detail="Задачи с таким ID нет"
         )
 
-@router.post("/tasks", status_code=status.HTTP_201_CREATED)
+@router.post("/tasks", status_code=201)
 def add_task(arg: AddTask):
-    if len(arg.title.strip()) > 0:
-        result = database_processing.add(arg.title)
-        return result
-    else:
-        raise HTTPException(
-            status_code=status.HTTP_422_UNPROCESSABLE_CONTENT,
-            detail="Название задачи не может быть пустым"
-        )
+    return database_processing.add(arg.title)
