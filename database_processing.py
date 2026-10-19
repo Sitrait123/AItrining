@@ -68,29 +68,16 @@ def list():
         for i in data:
             prin +=f"{i['id']}{indent * ((m_len_id + 3) - len(str(i['id'])))}{prin_status(i)}      {i['title']}\n"
         return prin
-    
-def execute_with_id_list():
-    border = "-"
-    indent = " "
-    status_border = 4
+
+def list_for_api():
     result = first_launch()
     if result is None:
         return None
     elif len(result) == 0:
         return 0
     else:
-        with open("tasks.json", "r") as file:
-            data = json.load(file)
-        m_len_id = len(str(max(x["id"] for x in data)))
-        m_len_title = max(len(x["title"]) for x in data)
-        id_border = 4 + m_len_id
-        title_border = 4 + m_len_title
-        for_endpoint = [f"ID{indent * m_len_id}STATUS   TITLE\n{border * (id_border + title_border + status_border)}"]
-        for i in data:
-            for_endpoint.append(f"{i['id']}{indent * ((m_len_id + 3) - len(str(i['id'])))}{prin_status(i)}      {i['title']}")
-        return for_endpoint
+        return result
 
-    
 def prin_status(i):
     if i["complete"]:
         return "[x]"
