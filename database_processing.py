@@ -101,6 +101,23 @@ def done(arg):
     else:
         return None
 
+    
+def undone(arg):
+    data =first_launch()
+    is_id = False
+    if data is not None:
+        for i in data:
+            if i["id"] == arg:
+                i["complete"] = False
+                is_id = True
+                break
+        if not is_id:
+            return 0 
+        else:
+            save_changes(data)
+            return i
+
+        
 def delete(arg):
     result = first_launch()
     del_id = load_del_id()
