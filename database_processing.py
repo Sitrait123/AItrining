@@ -46,7 +46,7 @@ def add(arg):
 
 def save_changes(data):
     with open("tasks.json", "w") as file:
-        json.dump(data, file)
+        json.dump(data, file, ensure_ascii=False)
 
 def list():
     border = "-"
@@ -68,7 +68,16 @@ def list():
         for i in data:
             prin +=f"{i['id']}{indent * ((m_len_id + 3) - len(str(i['id'])))}{prin_status(i)}      {i['title']}\n"
         return prin
-    
+
+def list_for_api():
+    result = first_launch()
+    if result is None:
+        return None
+    elif len(result) == 0:
+        return 0
+    else:
+        return result
+
 def prin_status(i):
     if i["complete"]:
         return "[x]"
@@ -92,6 +101,23 @@ def done(arg):
     else:
         return None
 
+    
+def undone(arg):
+    data =first_launch()
+    is_id = False
+    if data is not None:
+        for i in data:
+            if i["id"] == arg:
+                i["complete"] = False
+                is_id = True
+                break
+        if not is_id:
+            return 0 
+        else:
+            save_changes(data)
+            return i
+
+        
 def delete(arg):
     result = first_launch()
     del_id = load_del_id()

@@ -14,6 +14,6 @@ __pycache__/
 
 # Сохранения
 tasks.json
-
+del_id.json
 # Кэш тестов
 .pytest_cache
